@@ -1,0 +1,8 @@
+setup.py
+Home_Price_Prediction_AI.egg-info/PKG-INFO
+Home_Price_Prediction_AI.egg-info/SOURCES.txt
+Home_Price_Prediction_AI.egg-info/dependency_links.txt
+Home_Price_Prediction_AI.egg-info/requires.txt
+Home_Price_Prediction_AI.egg-info/top_level.txt
+house_price_prediction/__init__.py
+house_price_prediction/utils.py

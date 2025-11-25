@@ -1,0 +1,8 @@
+pandas
+numpy
+scikit-learn
+flask
+dill # Used for saving/loading the model and preprocessor
+gunicorn # Used for production deployment of the Flask app
+xgboost
+catboost

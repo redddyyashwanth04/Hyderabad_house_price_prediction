@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Home Price Predictor</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <div id="auth-screen" class="card">
+            <h2>Welcome to Price Predictor</h2>
+            <p>Your unbiased source for real-time home valuations.</p>
+            <form id="auth-form">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" id="auth-button">Login / Signup</button>
+            </form>
+            <p class="note">Authentication is simulated for demonstration purposes.</p>
+        </div>
+
+        <div id="app-screen" class="hidden">
+            <header>
+                <h1>🏠 Market Price Valuator</h1>
+                <p>Estimate the true market price of your property, ignoring builder hype.</p>
+            </header>
+
+            <form id="prediction-form" class="multi-step-form">
+                
+                <div id="step-1" class="step active">
+                    <h3>Step 1: Location and Size Details</h3>
+                    <div class="input-group">
+                        <label for="location">Location Name:</label>
+                        <select id="location" name="Location_Name" required>
+                            <option value="">Select Neighborhood/Locality</option>
+                            <option value="Suburb A">Suburb A</option>
+                            <option value="Downtown B">Downtown B</option>
+                            <option value="Outer Ring C">Outer Ring C</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="area">Area (Sq. Ft.):</label>
+                        <input type="number" id="area" name="Area_SqFt" placeholder="e.g., 1500" required min="100">
+                    </div>
+                    <div class="input-group">
+                        <label for="floors">Floors in Building / Unit Floor:</label>
+                        <input type="number" id="floors" name="Floors" placeholder="e.g., 5" required min="1">
+                    </div>
+                    <div class="button-row">
+                        <button type="button" class="next-btn" data-next="step-2">Next →</button>
+                    </div>
+                </div>
+
+                <div id="step-2" class="step hidden">
+                    <h3>Step 2: Key Property Features</h3>
+                    <div class="input-group">
+                        <label for="bedrooms">Bedrooms (BHK):</label>
+                        <input type="number" id="bedrooms" name="Bedrooms" placeholder="e.g., 3" required min="1" max="6">
+                    </div>
+                    <div class="input-group">
+                        <label for="bathrooms">Bathrooms:</label>
+                        <input type="number" id="bathrooms" name="Bathrooms" placeholder="e.g., 2" required min="1" max="5">
+                    </div>
+                    <div class="input-group">
+                        <label for="year_built">Year Built:</label>
+                        <input type="number" id="year_built" name="Year_Built" placeholder="e.g., 2010" required min="1900" max="2025">
+                    </div>
+                    <div class="button-row">
+                        <button type="button" class="prev-btn" data-prev="step-1">← Previous</button>
+                        <button type="button" class="next-btn" data-next="step-3">Next →</button>
+                    </div>
+                </div>
+
+                <div id="step-3" class="step hidden">
+                    <h3>Step 3: Property Context and Amenities</h3>
+                    <div class="input-group">
+                        <label for="property_type">Property Type:</label>
+                        <select id="property_type" name="Property_Type" required>
+                            <option value="">Select Type</option>
+                            <option value="Apartment">Apartment</option>
+                            <option value="Villa">Villa</option>
+                            <option value="Individual House">Individual House</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="furnishing">Furnishing Status:</label>
+                        <select id="furnishing" name="Furnishing_Status" required>
+                            <option value="">Select Status</option>
+                            <option value="Unfurnished">Unfurnished</option>
+                            <option value="Semi-Furnished">Semi-Furnished</option>
+                            <option value="Fully-Furnished">Fully-Furnished</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="facing">Facing Direction:</label>
+                        <select id="facing" name="Facing_Direction" required>
+                            <option value="">Select Direction</option>
+                            <option value="North">North</option>
+                            <option value="East">East</option>
+                            <option value="West">West</option>
+                            <option value="South">South</option>
+                            <option value="North-East">North-East</option>
+                        </select>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label>Key Features:</label>
+                        <div>
+                            <input type="checkbox" id="gated" name="Gated_Community" value="Yes">
+                            <label for="gated">Gated Community Access</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="balcony" name="Balcony" value="Yes">
+                            <label for="balcony">Includes Balcony</label>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="button" class="prev-btn" data-prev="step-2">← Previous</button>
+                        <button type="submit" id="predict-button">Get Price Estimate →</button>
+                    </div>
+                </div>
+            </form>
+
+            <div id="result-screen" class="card hidden">
+                <h3>Step 4: Estimated Market Price</h3>
+                <p>Based on our AI model, the unbiased market price for your property is:</p>
+                <div id="prediction-result">
+                    <span id="price-output"></span>
+                </div>
+                <p class="note">This is a dynamic estimate based on current market data and selected features.</p>
+                <button type="button" id="start-over-btn">Start New Estimate</button>
+            </div>
+            
+            <div id="loading-spinner" class="spinner hidden"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

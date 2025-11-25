@@ -1,0 +1,222 @@
+/* Base Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    
+    /* Real Estate Theme Background */
+    background-image: url('background.jpg'); /* Ensure this file exists! */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    
+    /* Subtle overlay for better text readability */
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(240, 244, 248, 0.85); /* Light semi-transparent overlay */
+    z-index: -1;
+    /* --- NEW: Increase contrast for the background image underneath --- */
+    filter: contrast(1.2); /* Adjust value (e.g., 1.1 to 1.5) as needed */
+}
+
+.container {
+    width: 100%;
+    max-width: 650px; 
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Card Styling (for Auth and Result) */
+.card, .multi-step-form {
+    background-color: #ffffff;
+    padding: 30px 40px; 
+    border-radius: 16px; 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); 
+    margin-bottom: 25px;
+    border-top: 5px solid #00897b; /* Teal accent line */
+}
+
+/* Header and Typography */
+header h1 {
+    color: #1a73e8; 
+    font-weight: 700;
+    margin-top: 0;
+    font-size: 2.5em;
+}
+header p {
+    color: #5f6368;
+    margin-bottom: 30px;
+}
+
+h2, h3 {
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Form Styling */
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600; 
+    color: #424242;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 14px 10px; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 5px rgba(26, 115, 232, 0.5); 
+    outline: none;
+}
+
+/* --- NEW: Equal sizing for email and password inputs --- */
+#auth-form {
+    display: flex; /* Use flexbox for alignment */
+    flex-wrap: wrap; /* Allow items to wrap if screen is small */
+    gap: 15px; /* Spacing between inputs */
+    margin-bottom: 25px;
+}
+
+#auth-form input[type="email"],
+#auth-form input[type="password"] {
+    flex: 1; /* Each input takes equal available space */
+    min-width: 200px; /* Minimum width before wrapping */
+}
+
+#auth-form button {
+    flex-basis: 100%; /* Button takes full width on its own row */
+    margin-top: 10px; /* Space above button */
+}
+/* --- END NEW --- */
+
+
+/* Checkbox Group */
+.checkbox-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px dashed #ddd; 
+    border-radius: 8px;
+}
+
+/* Button Styles (Interactive) */
+button {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 700;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+
+.next-btn, #predict-button, #auth-button {
+    background-color: #1a73e8; /* Primary Blue */
+    color: white;
+    box-shadow: 0 4px 10px rgba(26, 115, 232, 0.4);
+}
+
+.next-btn:hover, #predict-button:hover, #auth-button:hover {
+    background-color: #0c61e2; /* Darker blue on hover */
+    transform: translateY(-1px); 
+    box-shadow: 0 6px 12px rgba(26, 115, 232, 0.5);
+}
+
+.prev-btn {
+    background-color: #757575; /* Dark Gray */
+    color: white;
+}
+
+.prev-btn:hover {
+    background-color: #5a5a5a;
+    transform: translateY(-1px);
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+.button-row button {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+/* Result Display */
+#prediction-result {
+    text-align: center;
+    margin: 40px 0;
+}
+
+#price-output {
+    font-size: 56px;
+    font-weight: 700;
+    color: #00897b; 
+    display: block;
+    padding: 20px;
+    background: #e0f7fa;
+    border-radius: 12px;
+    border: 2px solid #00897b;
+}
+
+.note {
+    font-size: 0.9em;
+    color: #757575;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Spinner */
+.spinner {
+    border: 4px solid #e0f4f8; 
+    border-top: 4px solid #1a73e8; 
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 30px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
