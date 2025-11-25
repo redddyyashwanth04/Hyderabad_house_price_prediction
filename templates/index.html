@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet"> 
 </head>
 <body>
+    
+    <video autoplay muted loop id="video-bg">
+        <source src="{{ url_for('static', filename='background_video.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 
     <div class="container">
         <div id="auth-screen" class="card">
@@ -36,8 +41,8 @@
                 <div id="step-1" class="step active">
                     <h3>Step 1: Location and Size Details</h3>
                     <div class="input-group">
-                        <label for="location">Location Name:</label>
-                        <input type="text" id="location" name="Location_Name" placeholder="Start typing locality name..." required list="location-suggestions"> 
+                        <label for="location-input">Location Name:</label>
+                        <input type="search" id="location-input" name="Location_Name" placeholder="Start typing locality name..." required list="location-suggestions"> 
                     </div>
                     <div class="input-group">
                         <label for="area">Area (Sq. Ft.):</label>

@@ -10,48 +10,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentStep = 1;
     const totalSteps = 3;
-
-    // --- CRITICAL CHANGE: Location Suggestions Data & Population ---
     
-    // NOTE: You MUST replace these placeholders with the actual, correctly spelled 
-    // names of the top 20-50 localities from your hyderabad_real_estate_dataset3.csv
-    const locationData = [
-        "Gachibowli", 
-        "Kondapur", 
-        "Hitech City", 
-        "Madhapur", 
-        "Jubilee Hills",
-        "Banjara Hills",
-        "Kukatpally",
-        "Miyapur",
-        "Manikonda",
-        "Secunderabad",
-        "Shamshabad",
-        "Kompally"
-        // Add more locations from your dataset here...
-    ];
+    // --- New Input Element ---
+    const locationInput = document.getElementById('location-input'); // Targeting the new ID
 
+    // --- CRITICAL CHANGE: Dynamic Location Suggestions via Fetch ---
     const datalist = document.getElementById('location-suggestions');
+    // Use absolute path /static/... to ensure the browser always finds the file
+    const JSON_URL = '/static/location_suggestions.json'; 
 
-    function populateLocationSuggestions() {
-        locationData.forEach(location => {
-            const option = document.createElement('option');
-            option.value = location;
-            datalist.appendChild(option);
-        });
-        console.log(`Populated ${locationData.length} location suggestions.`);
+    async function populateLocationSuggestions() {
+        try {
+            const response = await fetch(JSON_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const locationData = await response.json();
+            
+            datalist.innerHTML = ''; 
+
+            locationData.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                datalist.appendChild(option);
+            });
+            console.log(`Datalist population complete. Total items added: ${locationData.length}`);
+        } catch (error) {
+            console.error('Failed to fetch location data.', error);
+        }
     }
 
     populateLocationSuggestions(); // Run on load
 
+    // --- NEW: Force Datalist Opening on Focus (Browser Dependent Trick) ---
+    if (locationInput) {
+        locationInput.addEventListener('focus', function() {
+            // If the input value is empty, temporarily add and remove a space
+            // This is a common trick to force the browser to display suggestions
+            if (this.value === "") {
+                this.value = ' '; 
+                this.value = ''; 
+            }
+        });
+    }
+
     // --- 1. Authentication Simulation ---
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        // Simple simulation: hide auth, show app after a delay
         setTimeout(() => {
             authScreen.classList.add('hidden');
             appScreen.classList.remove('hidden');
-            console.log('Authentication simulated. App started.');
         }, 500);
     });
 
@@ -61,13 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentStepDiv = document.getElementById(`step-${currentStep}`);
             const nextStepId = e.target.dataset.next;
             
-            // Basic validation check (ensure fields in current step are filled)
             const currentInputs = currentStepDiv.querySelectorAll('input[required], select[required]');
             let isValid = true;
             currentInputs.forEach(input => {
                 if (!input.value) {
                     isValid = false;
-                    input.reportValidity(); // Show native browser validation error
+                    input.reportValidity();
                 }
             });
 
@@ -94,22 +101,18 @@ document.addEventListener('DOMContentLoaded', () => {
     predictionForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // 1. Gather all form data
         const formData = new FormData(predictionForm);
         const data = {};
         
-        // Convert FormData to a JSON object
         for (const [key, value] of formData.entries()) {
             data[key] = value;
         }
         
-        // Handle checkboxes: Ensure unchecked boxes are sent as 'No'
         data['Gated_Community'] = data['Gated_Community'] || 'No';
         data['Balcony'] = data['Balcony'] || 'No';
 
         console.log('Data payload sent to API:', data);
 
-        // Hide form, show loading
         document.getElementById('step-3').classList.add('hidden');
         loadingSpinner.classList.remove('hidden');
         
@@ -129,11 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingSpinner.classList.add('hidden');
             
             if (response.ok) {
-                // Show result screen (Step 4)
                 priceOutput.textContent = `₹ ${result.predicted_price_lakhs.toLocaleString()} Lakhs`;
                 resultScreen.classList.remove('hidden');
             } else {
-                // Handle API error
                 priceOutput.textContent = `Error: ${result.error || 'Server Problem'}`;
                 resultScreen.classList.remove('hidden');
                 console.error('API Error:', result);
@@ -149,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- 4. Reset Button ---
     startOverBtn.addEventListener('click', () => {
-        // Reset form and navigation
         predictionForm.reset();
         resultScreen.classList.add('hidden');
         document.getElementById(`step-1`).classList.remove('hidden');
