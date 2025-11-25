@@ -9,13 +9,11 @@ body {
     align-items: flex-start;
     min-height: 100vh;
     
-    /* Real Estate Theme Background */
-    background-image: url('background.jpg'); /* Ensure this file exists! */
+    background-image: url('background.jpg'); 
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
     
-    /* Subtle overlay for better text readability */
     position: relative;
 }
 
@@ -26,10 +24,9 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(240, 244, 248, 0.85); /* Light semi-transparent overlay */
+    background: rgba(240, 244, 248, 0.85); 
     z-index: -1;
-    /* --- NEW: Increase contrast for the background image underneath --- */
-    filter: contrast(1.2); /* Adjust value (e.g., 1.1 to 1.5) as needed */
+    filter: contrast(1.2); /* Contrast adjustment */
 }
 
 .container {
@@ -50,7 +47,7 @@ body::before {
     border-radius: 16px; 
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); 
     margin-bottom: 25px;
-    border-top: 5px solid #00897b; /* Teal accent line */
+    border-top: 5px solid #00897b;
 }
 
 /* Header and Typography */
@@ -59,10 +56,6 @@ header h1 {
     font-weight: 700;
     margin-top: 0;
     font-size: 2.5em;
-}
-header p {
-    color: #5f6368;
-    margin-bottom: 30px;
 }
 
 h2, h3 {
@@ -104,25 +97,25 @@ input:focus, select:focus {
     outline: none;
 }
 
-/* --- NEW: Equal sizing for email and password inputs --- */
+/* Equal sizing for email and password inputs */
 #auth-form {
-    display: flex; /* Use flexbox for alignment */
-    flex-wrap: wrap; /* Allow items to wrap if screen is small */
-    gap: 15px; /* Spacing between inputs */
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 15px; 
     margin-bottom: 25px;
 }
 
 #auth-form input[type="email"],
 #auth-form input[type="password"] {
     flex: 1; /* Each input takes equal available space */
-    min-width: 200px; /* Minimum width before wrapping */
+    min-width: 200px; 
+    width: auto; /* Override 100% width for flex sizing */
 }
 
 #auth-form button {
     flex-basis: 100%; /* Button takes full width on its own row */
-    margin-top: 10px; /* Space above button */
+    margin-top: 10px; 
 }
-/* --- END NEW --- */
 
 
 /* Checkbox Group */
@@ -145,19 +138,19 @@ button {
 }
 
 .next-btn, #predict-button, #auth-button {
-    background-color: #1a73e8; /* Primary Blue */
+    background-color: #1a73e8; 
     color: white;
     box-shadow: 0 4px 10px rgba(26, 115, 232, 0.4);
 }
 
 .next-btn:hover, #predict-button:hover, #auth-button:hover {
-    background-color: #0c61e2; /* Darker blue on hover */
+    background-color: #0c61e2; 
     transform: translateY(-1px); 
     box-shadow: 0 6px 12px rgba(26, 115, 232, 0.5);
 }
 
 .prev-btn {
-    background-color: #757575; /* Dark Gray */
+    background-color: #757575; 
     color: white;
 }
 
@@ -171,17 +164,8 @@ button {
     justify-content: space-between;
     margin-top: 40px;
 }
-.button-row button {
-    flex-grow: 1;
-    margin: 0 5px;
-}
 
 /* Result Display */
-#prediction-result {
-    text-align: center;
-    margin: 40px 0;
-}
-
 #price-output {
     font-size: 56px;
     font-weight: 700;
@@ -193,13 +177,6 @@ button {
     border: 2px solid #00897b;
 }
 
-.note {
-    font-size: 0.9em;
-    color: #757575;
-    text-align: center;
-    margin-top: 15px;
-}
-
 /* Spinner */
 .spinner {
     border: 4px solid #e0f4f8; 
@@ -209,14 +186,4 @@ button {
     height: 40px;
     animation: spin 1s linear infinite;
     margin: 30px auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
 }

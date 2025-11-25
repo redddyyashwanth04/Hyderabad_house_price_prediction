@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Home Price Predictor</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> 
 </head>
 <body>
 
@@ -33,12 +33,7 @@
                     <h3>Step 1: Location and Size Details</h3>
                     <div class="input-group">
                         <label for="location">Location Name:</label>
-                        <select id="location" name="Location_Name" required>
-                            <option value="">Select Neighborhood/Locality</option>
-                            <option value="Suburb A">Suburb A</option>
-                            <option value="Downtown B">Downtown B</option>
-                            <option value="Outer Ring C">Outer Ring C</option>
-                        </select>
+                        <input type="text" id="location" name="Location_Name" placeholder="Start typing locality name..." required list="location-suggestions"> 
                     </div>
                     <div class="input-group">
                         <label for="area">Area (Sq. Ft.):</label>
@@ -122,6 +117,9 @@
                         <button type="submit" id="predict-button">Get Price Estimate →</button>
                     </div>
                 </div>
+
+                <datalist id="location-suggestions">
+                    </datalist>
             </form>
 
             <div id="result-screen" class="card hidden">

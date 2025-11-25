@@ -11,6 +11,39 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentStep = 1;
     const totalSteps = 3;
 
+    // --- CRITICAL CHANGE: Location Suggestions Data & Population ---
+    
+    // NOTE: You MUST replace these placeholders with the actual, correctly spelled 
+    // names of the top 20-50 localities from your hyderabad_real_estate_dataset3.csv
+    const locationData = [
+        "Gachibowli", 
+        "Kondapur", 
+        "Hitech City", 
+        "Madhapur", 
+        "Jubilee Hills",
+        "Banjara Hills",
+        "Kukatpally",
+        "Miyapur",
+        "Manikonda",
+        "Secunderabad",
+        "Shamshabad",
+        "Kompally"
+        // Add more locations from your dataset here...
+    ];
+
+    const datalist = document.getElementById('location-suggestions');
+
+    function populateLocationSuggestions() {
+        locationData.forEach(location => {
+            const option = document.createElement('option');
+            option.value = location;
+            datalist.appendChild(option);
+        });
+        console.log(`Populated ${locationData.length} location suggestions.`);
+    }
+
+    populateLocationSuggestions(); // Run on load
+
     // --- 1. Authentication Simulation ---
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -67,17 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Convert FormData to a JSON object
         for (const [key, value] of formData.entries()) {
-            if (key === 'Gated_Community' || key === 'Balcony') {
-                // Handle checkboxes: if checked, value is 'Yes', otherwise it's undefined
-                // The backend CustomData needs 'Yes' or assumed 'No'/'Other' category handling.
-                data[key] = value;
-            } else {
-                data[key] = value;
-            }
+            data[key] = value;
         }
         
-        // Ensure unchecked checkboxes are sent as a default categorical value (e.g., 'No')
-        // This is crucial because the Model Trainer requires the feature to be present.
+        // Handle checkboxes: Ensure unchecked boxes are sent as 'No'
         data['Gated_Community'] = data['Gated_Community'] || 'No';
         data['Balcony'] = data['Balcony'] || 'No';
 

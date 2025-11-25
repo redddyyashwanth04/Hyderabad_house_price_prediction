@@ -11,11 +11,9 @@ from house_price_prediction.utils import save_object, evaluate_models, calculate
 
 @dataclass
 class ModelTrainerConfig:
-    """Stores configuration paths for model trainer artifacts."""
     trained_model_file_path: str = os.path.join("artifacts", "model.pkl")
 
 class ModelTrainer:
-    """Trains, evaluates, and selects the best machine learning model."""
     
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
@@ -24,11 +22,9 @@ class ModelTrainer:
         print("Starting model training and selection...")
         
         try:
-            # Separate features (X) and target (y)
             X_train, y_train = train_array[:, :-1], train_array[:, -1]
             X_test, y_test = test_array[:, :-1], test_array[:, -1]
 
-            # Define the models to be evaluated
             models = {
                 "Linear Regression": LinearRegression(),
                 "Lasso": Lasso(),
@@ -40,8 +36,6 @@ class ModelTrainer:
                 "CatBoosting Regressor": CatBoostRegressor(verbose=False),
             }
             
-            # Evaluate all models using the utility function
-            # The utility function returns a dict of model names and their R2 scores on the test set.
             model_report: dict = evaluate_models(X_train, y_train, X_test, y_test, models)
             
             print("\n--- Model Evaluation Report ---")
@@ -49,26 +43,22 @@ class ModelTrainer:
                 print(f"{model_name}: R2 Score = {r2_score:.4f}")
             print("-------------------------------\n")
 
-            # Find the best model based on R2 Score
             best_model_score = max(sorted(model_report.values()))
             best_model_name = list(model_report.keys())[
                 list(model_report.values()).index(best_model_score)
             ]
             best_model = models[best_model_name]
 
-            # Guard against a poorly performing model
             if best_model_score < 0.6: 
                 raise Exception(f"No model achieved an acceptable R2 score (Max R2: {best_model_score:.4f})")
             
             print(f"**Best Model Found: {best_model_name}** with R2 Score: **{best_model_score:.4f}**")
 
-            # Save the best model artifact
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
                 obj=best_model
             )
 
-            # Final check on the test set using the best model
             predicted_prices = best_model.predict(X_test)
             rmse, r2_square = calculate_metrics(y_test, predicted_prices)
             
