@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Home Price Predictor</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> 
+    <title>AI Hyderabad Property Value</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet"> 
 </head>
 <body>
 
     <div class="container">
         <div id="auth-screen" class="card">
-            <h2>Welcome to Price Predictor</h2>
-            <p>Your unbiased source for real-time home valuations.</p>
+            <h2>Welcome to the Hyderabad Property Valuator</h2>
+            <p>Your unbiased source for real-time home valuations in the City of Pearls.</p>
             <form id="auth-form">
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
+                <div class="auth-inputs"> 
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Password" required>
+                </div>
                 <button type="submit" id="auth-button">Login / Signup</button>
             </form>
-            <p class="note">Authentication is simulated for demonstration purposes.</p>
+            <p class="note">Authentication is simulated for demonstration purposes only.</p>
         </div>
 
         <div id="app-screen" class="hidden">
             <header>
-                <h1>🏠 Market Price Valuator</h1>
-                <p>Estimate the true market price of your property, ignoring builder hype.</p>
+                <h1>🏡 Hyderabad Property Value Check</h1>
+                <p>Get the true, unbiased market estimate for flats and villas across Hyderabad and surrounding areas.</p>
             </header>
 
             <form id="prediction-form" class="multi-step-form">
@@ -136,6 +140,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

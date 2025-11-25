@@ -1,6 +1,7 @@
 import os
 import json
-from flask import Flask, request, jsonify
+# ...
+from flask import Flask, request, jsonify, render_template # ADD render_template
 from flask_cors import CORS 
 from house_price_prediction.pipeline.prediction_pipeline import CustomData, PredictPipeline
 
@@ -16,10 +17,12 @@ PREPROCESSOR_PATH = os.path.join(os.getcwd(), 'artifacts', 'preprocessor.pkl')
 
 @app.route('/', methods=['GET'])
 def home():
-    """Simple check to ensure the server is running."""
-    return "<h1>Home Price Prediction API is Running!</h1>"
+    """Serves the frontend application template."""
+    # Flask looks in the 'templates' folder for this file
+    return render_template('index.html') 
 
 @app.route('/predict', methods=['POST'])
+# ... (rest of the predict route remains unchanged)
 def predict_house_price():
     """Endpoint to receive house features (JSON) and return the price prediction."""
     try:
