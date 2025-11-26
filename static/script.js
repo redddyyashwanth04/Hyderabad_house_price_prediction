@@ -12,11 +12,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalSteps = 3;
     
     // --- New Input Element ---
-    const locationInput = document.getElementById('location-input'); // Targeting the new ID
+    const locationInput = document.getElementById('location-input');
+
+    // --- Validation Rules Definition (Global Constants) ---
+    const VALIDATION_RULES = {
+        'Area_SqFt': { min: 200, max: 5000, label: "Area (Sq. Ft.)" },
+        'Floors': { min: 1, max: 50, label: "Floors" },
+        'Bedrooms': { min: 1, max: 6, label: "Bedrooms" },
+        'Bathrooms': { min: 1, max: 5, label: "Bathrooms" },
+        'Year_Built': { min: 1950, max: 2025, label: "Year Built" }
+    };
+    
+    // Function to show custom message (using alert as temporary placeholder for a custom UI modal)
+    function showCustomError(message) {
+        alert(message);
+    }
+
 
     // --- CRITICAL CHANGE: Dynamic Location Suggestions via Fetch ---
     const datalist = document.getElementById('location-suggestions');
-    // Use absolute path /static/... to ensure the browser always finds the file
     const JSON_URL = '/static/location_suggestions.json'; 
 
     async function populateLocationSuggestions() {
@@ -45,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NEW: Force Datalist Opening on Focus (Browser Dependent Trick) ---
     if (locationInput) {
         locationInput.addEventListener('focus', function() {
-            // If the input value is empty, temporarily add and remove a space
-            // This is a common trick to force the browser to display suggestions
             if (this.value === "") {
                 this.value = ' '; 
                 this.value = ''; 
@@ -63,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     });
 
-    // --- 2. Multi-Step Navigation ---
+    // --- 2. Multi-Step Navigation (Updated Validation) ---
     document.querySelectorAll('.next-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             const currentStepDiv = document.getElementById(`step-${currentStep}`);
@@ -71,6 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const currentInputs = currentStepDiv.querySelectorAll('input[required], select[required]');
             let isValid = true;
+
+            // 1. Check for blank fields (native HTML validation)
             currentInputs.forEach(input => {
                 if (!input.value) {
                     isValid = false;
@@ -78,6 +92,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // 2. Check Custom Numeric Constraints
+            if (isValid) {
+                currentInputs.forEach(input => {
+                    const name = input.name;
+                    const value = parseFloat(input.value);
+                    
+                    if (VALIDATION_RULES[name]) {
+                        const rules = VALIDATION_RULES[name];
+                        
+                        if (value < rules.min || value > rules.max) {
+                            showCustomError(
+                                `${rules.label} value is out of range! ` +
+                                `Please enter a value between ${rules.min} and ${rules.max}.`
+                            );
+                            isValid = false;
+                            input.focus();
+                        }
+                    }
+                });
+            }
+
+
+            // 3. Navigate only if valid
             if (isValid) {
                 currentStepDiv.classList.add('hidden');
                 document.getElementById(nextStepId).classList.remove('hidden');
