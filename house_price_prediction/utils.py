@@ -25,24 +25,31 @@ def load_object(file_path):
         print(f"Error loading object: {e}")
         raise e
 
-def evaluate_models(X_train, y_train, X_test, y_test, models):
-    """Trains multiple models and returns a dictionary of R2 scores."""
-    try:
-        report = {}
-        for name, model in models.items():
-            model.fit(X_train, y_train)
-            y_test_pred = model.predict(X_test)
-            test_model_score = r2_score(y_test, y_test_pred)
-            report[name] = test_model_score
-        return report
-
-    except Exception as e:
-        print(f"Error evaluating models: {e}")
-        raise e
-
 def calculate_metrics(y_true, y_pred):
     """Calculates RMSE and R2 score (uses sqrt(MSE) for compatibility)."""
     mse = mean_squared_error(y_true, y_pred)
     rmse = np.sqrt(mse) 
     r2_square = r2_score(y_true, y_pred)
     return rmse, r2_square
+
+def evaluate_models(X_train, y_train, X_test, y_test, models):
+    """
+    Trains multiple models, evaluates their performance, and returns a dictionary 
+    containing both R2 and RMSE for each model.
+    """
+    try:
+        report = {}
+        for name, model in models.items():
+            model.fit(X_train, y_train)
+            y_test_pred = model.predict(X_test)
+            
+            # Calculate metrics
+            rmse, r2_square = calculate_metrics(y_test, y_test_pred)
+            
+            # Store both metrics in the report
+            report[name] = {'R2': r2_square, 'RMSE': rmse}
+        return report
+
+    except Exception as e:
+        print(f"Error evaluating models: {e}")
+        raise e

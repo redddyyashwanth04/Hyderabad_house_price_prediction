@@ -36,9 +36,12 @@ class DataIngestion:
             
             print("Train/Test data splitting and saving complete.")
             
+            # CRITICAL FIX: Return 4 values to match the call in training_pipeline.py
             return (
                 self.ingestion_config.train_data_path,
-                self.ingestion_config.test_data_path
+                self.ingestion_config.test_data_path,
+                train_set.shape, # Shape of the training data
+                test_set.shape   # Shape of the testing data
             )
         
         except FileNotFoundError:
