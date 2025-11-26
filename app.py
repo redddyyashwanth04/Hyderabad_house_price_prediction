@@ -54,10 +54,11 @@ def predict_house_price():
         predicted_price_lakhs = predict_pipeline.predict(pred_df)
         
         return jsonify({
-            "predicted_price_lakhs": round(predicted_price_lakhs, 2),
-            "currency_unit": "Lakhs",
-            "message": "Prediction successful"
-        })
+        # CRITICAL FIX: Cast the NumPy float32 result to a standard Python float
+        "predicted_price_lakhs": round(float(predicted_price_lakhs), 2),
+        "currency_unit": "Lakhs",
+        "message": "Prediction successful"
+    })
 
     except KeyError as ke:
         return jsonify({
