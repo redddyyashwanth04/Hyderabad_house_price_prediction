@@ -12,25 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalSteps = 3;
     
     // --- New Input Element ---
-    const locationInput = document.getElementById('location-input');
-
-    // --- Validation Rules Definition (Global Constants) ---
-    const VALIDATION_RULES = {
-        'Area_SqFt': { min: 200, max: 5000, label: "Area (Sq. Ft.)" },
-        'Floors': { min: 1, max: 50, label: "Floors" },
-        'Bedrooms': { min: 1, max: 6, label: "Bedrooms" },
-        'Bathrooms': { min: 1, max: 5, label: "Bathrooms" },
-        'Year_Built': { min: 1950, max: 2025, label: "Year Built" }
-    };
-    
-    // Function to show custom message (using alert as temporary placeholder for a custom UI modal)
-    function showCustomError(message) {
-        alert(message);
-    }
-
+    const locationInput = document.getElementById('location-input'); // Targeting the input field
 
     // --- CRITICAL CHANGE: Dynamic Location Suggestions via Fetch ---
     const datalist = document.getElementById('location-suggestions');
+    // Use absolute path /static/... to ensure the browser always finds the file
     const JSON_URL = '/static/location_suggestions.json'; 
 
     async function populateLocationSuggestions() {
@@ -56,16 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     populateLocationSuggestions(); // Run on load
 
-    // --- NEW: Force Datalist Opening on Focus (Browser Dependent Trick) ---
-    if (locationInput) {
-        locationInput.addEventListener('focus', function() {
-            if (this.value === "") {
-                this.value = ' '; 
-                this.value = ''; 
-            }
-        });
-    }
-
+    // --- REMOVED: Force Datalist Opening on Focus (Browser Dependent Trick) ---
+    // The previous code block has been removed to allow native browser behavior.
+    
     // --- 1. Authentication Simulation ---
     authForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -75,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     });
 
-    // --- 2. Multi-Step Navigation (Updated Validation) ---
+    // --- 2. Multi-Step Navigation ---
     document.querySelectorAll('.next-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             const currentStepDiv = document.getElementById(`step-${currentStep}`);
@@ -92,7 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 2. Check Custom Numeric Constraints
+            // 2. Check Custom Numeric Constraints (from index.html/script.js logic)
+            const VALIDATION_RULES = {
+                'Area_SqFt': { min: 200, max: 5000, label: "Area (Sq. Ft.)" },
+                'Floors': { min: 1, max: 50, label: "Floors" },
+                'Bedrooms': { min: 1, max: 6, label: "Bedrooms" },
+                'Bathrooms': { min: 1, max: 5, label: "Bathrooms" },
+                'Year_Built': { min: 1950, max: 2025, label: "Year Built" }
+            };
+
             if (isValid) {
                 currentInputs.forEach(input => {
                     const name = input.name;
@@ -101,8 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (VALIDATION_RULES[name]) {
                         const rules = VALIDATION_RULES[name];
                         
-                        if (value < rules.min || value > rules.max) {
-                            showCustomError(
+                        // Check if the input is numeric and outside the defined range
+                        if (!isNaN(value) && (value < rules.min || value > rules.max)) {
+                            alert(
                                 `${rules.label} value is out of range! ` +
                                 `Please enter a value between ${rules.min} and ${rules.max}.`
                             );
@@ -145,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             data[key] = value;
         }
         
+        // Handle checkboxes: Ensure unchecked boxes are sent as 'No'
         data['Gated_Community'] = data['Gated_Community'] || 'No';
         data['Balcony'] = data['Balcony'] || 'No';
 
