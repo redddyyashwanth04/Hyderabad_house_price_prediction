@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.o
+*.so
+
+# CatBoost logs and info (Caused major conflicts)
+catboost_info/
+
+# Artifacts and build files (often temporary)
+/artifacts/
+*.egg-info/
+/build/
+/dist/
+
+# Environment
+venv/
+.env
+
+# VS Code settings (Should not be shared/tracked)
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
